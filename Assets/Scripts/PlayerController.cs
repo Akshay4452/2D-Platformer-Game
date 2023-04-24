@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
     private bool IsGrounded()
     {
         float extraHeight = 0.1f;
-        RaycastHit2D raycastHit = Physics2D.Raycast(boxCollider2D.bounds.center, Vector2.down, boxCollider2D.bounds.extents.y + extraHeight, platformLayer);
+        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider2D.bounds.center, boxCollider2D.size, 0f, Vector2.down, extraHeight, platformLayer);
         Color rayColor;
         if(raycastHit.collider != null)
         {
@@ -107,7 +107,10 @@ public class PlayerController : MonoBehaviour
         {
             rayColor = Color.red;
         }
-        Debug.DrawRay(boxCollider2D.bounds.center, Vector2.down * (boxCollider2D.bounds.extents.y + extraHeight), rayColor);
+        Debug.DrawRay(boxCollider2D.bounds.center + new Vector3(boxCollider2D.bounds.extents.x, 0), Vector2.down * (boxCollider2D.bounds.extents.y + extraHeight), rayColor);
+        Debug.DrawRay(boxCollider2D.bounds.center - new Vector3(boxCollider2D.bounds.extents.x, 0), Vector2.down * (boxCollider2D.bounds.extents.y + extraHeight), rayColor);
+        Debug.DrawRay(boxCollider2D.bounds.center - new Vector3(boxCollider2D.bounds.extents.x, boxCollider2D.bounds.extents.y+ extraHeight), Vector2.right * (boxCollider2D.bounds.extents.x * 2), rayColor);
+
         //Debug.Log("Player has hit: " + raycastHit.collider);
         return raycastHit.collider != null;
     }
